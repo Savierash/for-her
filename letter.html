@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Envelope with Letter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle at center, #e6e6fa 0%, #d8bfd8 100%);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' opacity='0.1'%3E%3Cpath d='M50 10 C30 10, 10 30, 10 50 C10 70, 30 90, 50 90 C70 90, 90 70, 90 50 C90 30, 70 10, 50 10 Z M50 20 C60 20, 70 30, 70 50 C70 70, 60 80, 50 80 C40 80, 30 70, 30 50 C30 30, 40 20, 50 20 Z' fill='%23b0c4de'/%3E%3C/svg%3E");
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .envelope {
+            width: 400px;
+            height: 275px;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        .envelope-front, .envelope-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            transition: transform 0.6s ease;
+            border-radius: 15px;
+        }
+
+        .envelope-front {
+            background: linear-gradient(#b3e5fc, #e1f5fe);
+            border: 3px solid #81d4fa;
+            border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='3' fill='%2381d4fa'/%3E%3C/svg%3E") 10 round;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 200px solid transparent;
+            border-right: 200px solid transparent;
+            border-bottom: 137.5px solid #81d4fa;
+        }
+
+        .address {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            font-size: 16px;
+            color: #4a3c3c;
+            text-align: left;
+            z-index: 4;
+        }
+
+        .envelope-back {
+            background: linear-gradient(#e1f5fe, #f0f8ff);
+            transform: rotateY(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+
+        .letter {
+            width: 100%;
+            height: 100%;
+            background: #fffafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 18px;
+            color: #4a3c3c;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            overflow-y: auto;
+            max-height: 90%;
+            border: 2px dashed #81d4fa;
+        }
+
+        .letter::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .letter::-webkit-scrollbar-track {
+            background: #f0f8ff;
+            border-radius: 10px;
+        }
+
+        .letter::-webkit-scrollbar-thumb {
+            background: #81d4fa;
+            border-radius: 10px;
+        }
+
+        .letter::-webkit-scrollbar-thumb:hover {
+            background: #4fc3f7;
+        }
+
+        .letter::before {
+            content: '💕';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 36px;
+            opacity: 0.2;
+        }
+
+        .letter::after {
+            content: '✨';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 36px;
+            opacity: 0.2;
+        }
+
+        .heart {
+            position: absolute;
+            width: 62.5px;
+            height: 62.5px;
+            background: #ff6b81;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+            z-index: 3;
+            animation: bounce 1.2s infinite ease-in-out;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 62.5px;
+            height: 62.5px;
+            background: #ff6b81;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -31.25px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 31.25px;
+            top: 0;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(-45deg); }
+            50% { transform: translate(-50%, -50%) scale(1.15) rotate(-45deg); }
+            75% { transform: translate(-50%, -50%) scale(1.1) rotate(-45deg); }
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateY(180deg);
+        }
+
+        .envelope.open .envelope-back {
+            transform: rotateY(0deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope" onclick="this.classList.toggle('open')">
+        <div class="envelope-front">
+            <div class="heart"></div>
+            <div class="address">
+                From: Anne<br>
+                To: Emil
+            </div>
+        </div>
+        <div class="envelope-back">
+            <div class="letter">
+                <p>Hi Emil ,</p>
+                <p>First chat natin August tas ngayon September na, shetttt and syempre tatagal pa aawayin mo pa ako eh tapos talo nanaman ako, 
+                    gumawa na ako ganto para masaya and cute, and Goodluck sa Exam mo lam ko namang kaya mo yan eh maangas ka eh. Kwan lang happy ako kasi nakilala kita, 
+                    syempre dahil narin kay Grace HAHAHAAHAH, 
+                    At alam mo ba, My heart beats only for you, forever and always. 💕</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
